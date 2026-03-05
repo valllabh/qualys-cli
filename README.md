@@ -10,9 +10,6 @@ A unified command line interface for Qualys Cloud Platform services. Built with 
 # One liner install (auto detects OS and architecture)
 curl -fsSL https://raw.githubusercontent.com/valllabh/qualys-cli/main/download.sh | bash
 
-# For private repos, set a GitHub token first
-export GITHUB_TOKEN="ghp_..."
-curl -fsSL https://raw.githubusercontent.com/valllabh/qualys-cli/main/download.sh | bash
 ```
 
 Or download manually from [Releases](https://github.com/valllabh/qualys-cli/releases):
@@ -146,69 +143,6 @@ qualys tas count-findings
 qualys tas search-apis
 qualys tas create-api --input-json '{"name": "My API", "url": "https://api.example.com"}'
 ```
-
-## Development
-
-### Prerequisites
-
-- [Bun](https://bun.sh) (latest stable)
-- Git
-
-### Setup
-
-```bash
-git clone https://github.com/valllabh/qualys-cli.git
-cd qualys-cli
-make install
-```
-
-### Commands
-
-```bash
-make build       # Build binary for current platform
-make build-all   # Build for all platforms
-make test        # Run tests
-make lint        # Run linter
-make typecheck   # Run TypeScript type checker
-make format      # Auto format code
-make clean       # Clean build artifacts
-```
-
-### Project Structure
-
-```
-qualys-cli/
-  packages/
-    sdk/                    # @qualys/sdk (reusable TypeScript SDK)
-      src/
-        auth.ts             # Authentication (Basic, OIDC)
-        client.ts           # Dynamic API client from OpenAPI specs
-        credentials.ts      # Credential provider chain
-        loader.ts           # Service spec loader
-        session.ts          # Session management
-        transport.ts        # HTTP transport
-      data/
-        totalappsec/v2/     # OpenAPI specifications
-      tests/
-    cli/                    # @qualys/cli (command line interface)
-      src/
-        commands.ts         # Command routing and help generation
-        auth.ts             # Interactive auth flows
-        formatter.ts        # Output formatting (json, table, csv, text)
-        docs/               # Built in documentation
-      tests/
-  scripts/
-    embed-specs.ts          # Embeds OpenAPI specs into binary
-  dist/                     # Compiled binaries
-```
-
-### Architecture
-
-**Data Driven**: All commands, parameters, and help text are generated from OpenAPI specifications. No hardcoded API operations.
-
-**Two Package Design**: The SDK (`@qualys/sdk`) handles authentication, HTTP transport, and API client generation. The CLI (`@qualys/cli`) adds command parsing, output formatting, and interactive flows. The SDK can be used independently.
-
-**Single Binary**: OpenAPI specs are embedded at build time. The compiled binary has zero runtime dependencies.
 
 ## License
 
