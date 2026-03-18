@@ -117,6 +117,13 @@ main() {
   install_binary
   check_path
 
+  if command -v gh &>/dev/null; then
+    step "Verifying artifact attestation..."
+    gh attestation verify "$INSTALL_PATH" --repo valllabh/qualys-cli 2>/dev/null \
+      && step "Attestation verified" \
+      || step "Attestation verification skipped (not yet available for this release)"
+  fi
+
   success "Qualys CLI installed. Run 'qualys --help' to get started."
 }
 
